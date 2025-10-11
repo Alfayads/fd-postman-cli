@@ -17,8 +17,16 @@
     "lint:fix": "eslint 'src/**/*.ts' --fix",
     "format": "prettier --write 'src/**/*.ts'",
     "format:check": "prettier --check 'src/**/*.ts'",
-    "prepublishOnly": "npm run lint && npm run test && npm run build"
+    "prepublishOnly": "npm run lint && npm run test && npm run build",
+    "postinstall": "node -e \"console.log('\\n🎨 TIP: Enable autocomplete! Run: cd completions && ./install-completions.sh\\n')\""
   },
+  "files": [
+    "dist",
+    "bin",
+    "completions",
+    "README.md",
+    "LICENSE"
+  ],
   "keywords": [
     "cli",
     "postman",
