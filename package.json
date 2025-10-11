@@ -1,6 +1,6 @@
 {
   "name": "fd-postman-cli",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A powerful and efficient command-line interface (CLI) tool for API testing and interaction, inspired by Postman. Features workflows, request chaining, import/export, and history replay.",
   "main": "dist/index.js",
   "bin": {
