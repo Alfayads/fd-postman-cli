@@ -29,6 +29,7 @@ A powerful and efficient command-line interface (CLI) tool designed for develope
 - 🧪 **Test Assertions**: Validate responses automatically
 - 📥📤 **Import/Export**: Backup and share collections and environments
 - ✨ **Animated CLI**: Beautiful terminal experience
+- 🎨 **Autocomplete**: Smart suggestions with emoji icons (Bash/Zsh/Fish)
 
 ## Installation
 
@@ -54,6 +55,29 @@ npm run build
 # Link globally for local development
 npm link
 ```
+
+### 🎨 Enable Autocomplete (Optional but Recommended!)
+
+Get beautiful emoji-enhanced autocomplete suggestions as you type:
+
+```bash
+# Run the installation script
+cd completions
+./install-completions.sh
+
+# Reload your shell
+source ~/.bashrc  # for Bash
+# or
+source ~/.zshrc   # for Zsh
+```
+
+**Features:**
+- 🎯 Smart context-aware suggestions
+- 🎨 Visual emoji icons for every command
+- 📝 Helpful descriptions
+- ⚡ Works with Bash, Zsh, and Fish
+
+See [Autocomplete Guide](docs/AUTOCOMPLETE.md) for detailed instructions.
 
 ## Usage
 
