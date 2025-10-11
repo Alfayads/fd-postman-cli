@@ -1,0 +1,43 @@
+{
+  "id": "aws-s3-collection",
+  "name": "AWS S3 API Example",
+  "description": "Example collection for AWS S3 operations with SigV4 authentication",
+  "settings": {
+    "baseUrl": "https://s3.amazonaws.com",
+    "auth": {
+      "type": "aws-sigv4",
+      "awsSigV4": {
+        "accessKeyId": "{{aws_access_key_id}}",
+        "secretAccessKey": "{{aws_secret_access_key}}",
+        "region": "us-east-1",
+        "service": "s3"
+      }
+    }
+  },
+  "requests": [
+    {
+      "id": "list-buckets",
+      "name": "List All Buckets",
+      "method": "GET",
+      "url": "{{baseUrl}}/"
+    },
+    {
+      "id": "list-objects",
+      "name": "List Objects in Bucket",
+      "method": "GET",
+      "url": "{{baseUrl}}/{{bucket_name}}",
+      "params": {
+        "max-keys": "100"
+      }
+    },
+    {
+      "id": "get-object",
+      "name": "Get Object",
+      "method": "GET",
+      "url": "{{baseUrl}}/{{bucket_name}}/{{object_key}}"
+    }
+  ],
+  "createdAt": "2025-10-11T00:00:00.000Z",
+  "updatedAt": "2025-10-11T00:00:00.000Z"
+}
+

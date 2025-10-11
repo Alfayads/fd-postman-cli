@@ -1,0 +1,47 @@
+{
+  "id": "oauth2-collection",
+  "name": "OAuth 2.0 API Example",
+  "description": "Example collection demonstrating OAuth 2.0 authentication",
+  "settings": {
+    "baseUrl": "https://api.github.com",
+    "auth": {
+      "type": "oauth2",
+      "oauth2": {
+        "grantType": "authorization_code",
+        "clientId": "{{oauth_client_id}}",
+        "clientSecret": "{{oauth_client_secret}}",
+        "authUrl": "https://github.com/login/oauth/authorize",
+        "tokenUrl": "https://github.com/login/oauth/access_token",
+        "scope": "user repo",
+        "accessToken": "{{access_token}}"
+      }
+    }
+  },
+  "requests": [
+    {
+      "id": "get-user",
+      "name": "Get Authenticated User",
+      "method": "GET",
+      "url": "{{baseUrl}}/user",
+      "headers": {
+        "Accept": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "id": "list-repos",
+      "name": "List User Repositories",
+      "method": "GET",
+      "url": "{{baseUrl}}/user/repos",
+      "params": {
+        "sort": "updated",
+        "per_page": "10"
+      },
+      "headers": {
+        "Accept": "application/vnd.github.v3+json"
+      }
+    }
+  ],
+  "createdAt": "2025-10-11T00:00:00.000Z",
+  "updatedAt": "2025-10-11T00:00:00.000Z"
+}
+
