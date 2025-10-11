@@ -2,6 +2,39 @@
 
 All notable changes to fd-postman-cli will be documented in this file.
 
+## [2.1.0] - 2025-01-11
+
+### Added - Shell Autocomplete with Emoji Icons 🎨
+
+- **Beautiful Shell Completions**: Emoji-enhanced autocomplete for Bash, Zsh, and Fish shells
+- **Smart Suggestions**: Context-aware completions that change based on what you're typing
+- **Visual Icons**: Every command has an emoji icon (🌐📤🔄🗑️✏️📋⚙️🌍📦📜🔐)
+- **Helpful Descriptions**: See what each command does right in your terminal
+- **Auto-Installer**: One-click installation script with automatic shell detection
+- **Complete Documentation**: 
+  - Full guide (docs/AUTOCOMPLETE.md)
+  - Quick reference card (docs/AUTOCOMPLETE_QUICKREF.md)
+- **Completion Features**:
+  - All main commands with descriptions
+  - All subcommands for env, collection, global, history, workflow, auth
+  - All options with helpful descriptions
+  - Authentication type suggestions
+  - Environment and collection name completion
+  - Partial matching and tab cycling support
+
+### Changed
+
+- Updated README.md with autocomplete installation section
+- Added `completions` directory to npm package
+- Added postinstall tip to guide users to enable autocomplete
+- Updated package.json with files array and postinstall script
+
+### Documentation
+
+- Added comprehensive autocomplete guide (338 lines)
+- Added quick reference card (175 lines)
+- Updated installation instructions
+
 ## [Unreleased]
 
 ### Added - v2.0.0 (Request Chaining, Workflows & Import/Export)
