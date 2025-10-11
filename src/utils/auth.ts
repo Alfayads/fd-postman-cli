@@ -1,13 +1,9 @@
 /**
  * Authentication utilities
- * Handles various authentication methods including advanced flows
+ * Handles various authentication methods
  */
 
 import { AuthConfig, CommandOptions } from '../models';
-import { applyOAuth2Auth, isTokenExpired, refreshAccessToken } from './auth-oauth2';
-import { applyAWSSigV4Auth } from './auth-aws-sigv4';
-import { applyDigestAuth } from './auth-digest';
-import { applyCustomAuth } from './auth-custom';
 
 /**
  * Build authentication configuration from CLI options
@@ -48,14 +44,6 @@ export function buildAuthConfig(options: CommandOptions): AuthConfig | undefined
       config.apiKeyLocation = (options.apiKeyIn as 'header' | 'query') || 'header';
       break;
 
-    case 'oauth2':
-    case 'aws-sigv4':
-    case 'digest':
-    case 'custom':
-      // These auth types require configuration from files/environments
-      // They should be loaded from saved configurations
-      throw new Error(`${authType} authentication requires a saved configuration. Use collections or environments to store ${authType} config.`);
-
     default:
       throw new Error(`Unknown authentication type: ${authType}`);
   }
@@ -65,16 +53,12 @@ export function buildAuthConfig(options: CommandOptions): AuthConfig | undefined
 
 /**
  * Apply authentication to request headers/params
- * Supports both simple and advanced authentication methods
  */
-export async function applyAuth(
+export function applyAuth(
   auth: AuthConfig,
-  method: string,
-  url: string,
   headers: Record<string, string>,
-  params: Record<string, string>,
-  body?: string
-): Promise<void> {
+  params: Record<string, string>
+): void {
   switch (auth.type) {
     case 'bearer':
       if (auth.token) {
@@ -97,41 +81,6 @@ export async function applyAuth(
           params[auth.apiKeyName] = auth.apiKey;
         }
       }
-      break;
-
-    case 'oauth2':
-      if (!auth.oauth2) {
-        throw new Error('OAuth2 configuration is missing');
-      }
-      
-      // Check if token is expired and refresh if needed
-      if (isTokenExpired(auth.oauth2) && auth.oauth2.refreshToken) {
-        auth.oauth2 = await refreshAccessToken(auth.oauth2);
-      }
-      
-      applyOAuth2Auth(auth.oauth2, headers);
-      break;
-
-    case 'aws-sigv4':
-      if (!auth.awsSigV4) {
-        throw new Error('AWS SigV4 configuration is missing');
-      }
-      applyAWSSigV4Auth(auth.awsSigV4, method, url, headers, body);
-      break;
-
-    case 'digest':
-      if (!auth.digest) {
-        throw new Error('Digest authentication configuration is missing');
-      }
-      // Digest auth requires a callback to make the initial request
-      // This will be handled by the HTTP client
-      break;
-
-    case 'custom':
-      if (!auth.custom) {
-        throw new Error('Custom authentication configuration is missing');
-      }
-      await applyCustomAuth(auth.custom, method, url, headers, params);
       break;
   }
 }

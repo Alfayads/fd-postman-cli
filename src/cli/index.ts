@@ -27,7 +27,6 @@ import { registerGlobalCommand } from './commands/global';
 import { registerExportCommand } from './commands/export';
 import { registerImportCommand } from './commands/import';
 import { registerWorkflowCommand } from './commands/workflow';
-import { authCommand } from './commands/auth';
 
 const program = new Command();
 
@@ -54,7 +53,6 @@ registerGlobalCommand(program);
 registerExportCommand(program);
 registerImportCommand(program);
 registerWorkflowCommand(program);
-program.addCommand(authCommand);
 
 // Show welcome message if no arguments provided (before parsing)
 if (!process.argv.slice(2).length) {

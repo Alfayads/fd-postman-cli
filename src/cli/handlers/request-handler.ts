@@ -65,15 +65,19 @@ export async function executeRequest(
     const params = parseQueryParams(options.query);
     const timeout = options.timeout ? validateTimeout(String(options.timeout)) : 30000;
 
+    // Apply authentication if specified
+    const authConfig = buildAuthConfig(options);
+    if (authConfig) {
+      applyAuth(authConfig, headers, params);
+      logger.debug('Authentication applied', { type: authConfig.type });
+    }
+
     // Parse request body
     let data: unknown;
-    let bodyString: string | undefined;
     if (options.data) {
       data = parseData(options.data);
-      bodyString = typeof data === 'string' ? data : JSON.stringify(data);
     } else if (options.form) {
       data = parseFormData(options.form);
-      bodyString = typeof data === 'string' ? data : JSON.stringify(data);
       // Set Content-Type for form data if not already set
       if (!headers['Content-Type'] && !headers['content-type']) {
         headers['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -83,14 +87,7 @@ export async function executeRequest(
     // TODO: Handle multipart form data with file uploads
     // if (options.file) { ... }
 
-    // Step 2: Apply authentication if specified (now async)
-    const authConfig = buildAuthConfig(options);
-    if (authConfig) {
-      await applyAuth(authConfig, method, url, headers, params, bodyString);
-      logger.debug('Authentication applied', { type: authConfig.type });
-    }
-
-    // Step 3: Build request options
+    // Step 2: Build request options
     const requestOptions: RequestOptions = {
       method,
       url,
@@ -118,7 +115,7 @@ export async function executeRequest(
     // Get global variables for variable resolution
     const globalVars = globalStorage.getGlobalVariables();
 
-    // Step 4-8: Execute request with complete data flow
+    // Step 3-7: Execute request with complete data flow
     // This includes: variable resolution, HTTP execution, assertions, history logging
     const { response, testResults } = await requestExecutor.executeRequest(
       requestOptions,
@@ -127,7 +124,7 @@ export async function executeRequest(
       globalVars.variables // Global variables
     );
 
-    // Step 9: Format and display output
+    // Step 8: Format and display output
 
     // Handle JSON path filtering if specified
     let displayData = response.data;
