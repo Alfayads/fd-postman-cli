@@ -3,75 +3,16 @@
  */
 
 // Authentication Types
-export type AuthType = 
-  | 'none' 
-  | 'bearer' 
-  | 'basic' 
-  | 'apikey'
-  | 'oauth2'
-  | 'aws-sigv4'
-  | 'digest'
-  | 'custom';
-
-export interface OAuth2Config {
-  grantType: 'authorization_code' | 'client_credentials' | 'implicit' | 'pkce';
-  clientId: string;
-  clientSecret?: string; // Not needed for PKCE or Implicit
-  authUrl?: string; // Authorization endpoint
-  tokenUrl?: string; // Token endpoint
-  redirectUri?: string;
-  scope?: string;
-  state?: string;
-  // For PKCE
-  codeVerifier?: string;
-  codeChallenge?: string;
-  codeChallengeMethod?: 'S256' | 'plain';
-  // For storing obtained tokens
-  accessToken?: string;
-  refreshToken?: string;
-  tokenType?: string;
-  expiresIn?: number;
-  expiresAt?: Date;
-}
-
-export interface AWSSigV4Config {
-  accessKeyId: string;
-  secretAccessKey: string;
-  region: string;
-  service: string; // e.g., 's3', 'dynamodb', 'lambda'
-  sessionToken?: string; // For temporary credentials
-}
-
-export interface DigestAuthConfig {
-  username: string;
-  password: string;
-  // These fields are populated from server's WWW-Authenticate header
-  realm?: string;
-  nonce?: string;
-  qop?: string;
-  opaque?: string;
-  algorithm?: string;
-}
-
-export interface CustomAuthConfig {
-  script: string; // JavaScript code to execute
-  context?: Record<string, unknown>; // Variables available to the script
-}
+export type AuthType = 'none' | 'bearer' | 'basic' | 'apikey';
 
 export interface AuthConfig {
   type: AuthType;
-  // Basic/Bearer/API Key (existing)
   token?: string; // For Bearer Token
   username?: string; // For Basic Auth
   password?: string; // For Basic Auth
   apiKey?: string; // For API Key
   apiKeyLocation?: 'header' | 'query'; // Where to put API key
   apiKeyName?: string; // Name of the header/query param
-  // Advanced auth configurations
-  oauth2?: OAuth2Config;
-  awsSigV4?: AWSSigV4Config;
-  digest?: DigestAuthConfig;
-  custom?: CustomAuthConfig;
 }
 
 // HTTP Request and Response Models
